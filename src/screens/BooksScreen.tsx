@@ -1,20 +1,20 @@
 // src/screen/BooksScreen.tsx
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useState } from 'react';
 import { Button, View } from 'react-native';
+import { RootStackParamList } from '../../navigationTypes';
 import BookModal from '../components/BookModal';
 import SortedBooksList from '../components/SortedBooksList';
 import useBooks from '../hooks/useBooks';
 import { Book } from '../models/book.model';
 import sortBooks from '../utils/sortBooks';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigationTypes';
-import { useNavigation } from '@react-navigation/native';
 
 
 type BooksScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Books'>;
 
 const BooksScreen = () => {
-  const { books, addBook, editBook, setBooks } = useBooks();
+  const { books, authors, addBook, editBook, setBooks } = useBooks();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editableBook, setEditableBook] = useState<Partial<Book> | null>(null);
   const [showBookForm, setShowBookForm] = useState<boolean>(false);
@@ -27,25 +27,26 @@ const BooksScreen = () => {
 
   const handleSaveBook = useCallback(() => {
     if (editableBook) {
+      const bookToSave = {
+        ...editableBook,
+        id: isEditing ? editableBook.id : (Math.floor(Math.random() * 900) + 100).toString(),
+      };
+
       if (isEditing) {
-        editBook(editableBook as Book);
+        editBook(bookToSave as Book);
       } else {
-        addBook({
-          id: (Math.floor(Math.random() * 900) + 100).toString(),
-          title: editableBook.title || '',
-          publisher: editableBook.publisher || '',
-          authorId: editableBook.authorId || '',
-          year: editableBook.year || 0,
-        } as Book);
+        addBook(bookToSave as Book);
       }
+
       setIsEditing(false);
       setEditableBook(null);
+      setShowBookForm(false);
     }
   }, [editableBook, isEditing, addBook, editBook]);
 
   const handleAddBook = useCallback(() => {
     setIsEditing(false);
-    setEditableBook({ title: '', publisher: '', authorId: '', year: 0 });
+    setEditableBook({ title: '', publisher: '', year: 0 });
     setShowBookForm(true);
   }, []);
 
@@ -67,8 +68,9 @@ const BooksScreen = () => {
     <View>
       <Button title={showBookForm ? "Hide Book Form" : "Add Book"} onPress={showBookForm ? handleCloseBookForm : handleAddBook} />
       <Button title="Add Author" onPress={handleAddAuthor} />
-      <SortedBooksList books={books} sortBy={sortBy} onEditBook={handleEditBook} />
+      <SortedBooksList authors={authors} books={books} sortBy={sortBy} onEditBook={handleEditBook} />
       <BookModal
+        authors={authors}
         visible={showBookForm}
         onClose={handleCloseBookForm}
         onSaveBook={handleSaveBook}

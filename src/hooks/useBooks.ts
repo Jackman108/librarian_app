@@ -5,6 +5,7 @@ import { Author } from '../models/author.model';
 
 interface BooksHook {
     books: Book[];
+    authors: Author[];  // Add authors to the interface
     addBook: (book: Book) => void;
     editBook: (updatedBook: Book) => void;
     loadInitialData: () => void;
@@ -13,6 +14,7 @@ interface BooksHook {
 
 const useBooks = (): BooksHook => {
     const [books, setBooks] = useState<Book[]>([]);
+    const [authors, setAuthors] = useState<Author[]>([]);
 
     const addBook = (book: Book) => {
         setBooks([...books, book]);
@@ -29,14 +31,16 @@ const useBooks = (): BooksHook => {
         const initialData = require('../data/initialData.json');
         const allBooks = initialData.authors.flatMap((author: Author) => author.books);
         setBooks(allBooks);
+        setAuthors(initialData.authors);
     };
-    
+
     useEffect(() => {
         loadInitialData();
     }, []);
 
     return {
         books,
+        authors,
         addBook,
         editBook,
         loadInitialData,

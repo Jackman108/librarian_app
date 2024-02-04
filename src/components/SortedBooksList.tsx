@@ -5,19 +5,26 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Book } from '../models/book.model';
 import BookItem from './BookItem';
 import BookTableHeader from './BookTableHeader';
+import { Author } from '../models/author.model';
 
-const SortedBooksList = ({ books, sortBy, onEditBook }: {
+const SortedBooksList = ({ books, sortBy, onEditBook, authors }: {
     books: Book[];
     sortBy: (key: keyof Book, order: 'asc' | 'desc') => void;
     onEditBook: (book: Book) => void;
+    authors: Author[];
 }) => {
+    
     return (
         <View style={styles.container}>
             <Text style={styles.listHeaderText}>Books List</Text>
             <BookTableHeader sortBy={sortBy} />
-            {books && books.map((book) => (
-                <BookItem key={book.id} book={book} onEditBook={onEditBook} />
-            ))}
+            {books && books.map((book) => {
+                // Find the corresponding author for each book
+                const author = authors.find((author) => author.books.some(b => b.id === book.id));
+                return (
+                    <BookItem key={book.id} book={book} onEditBook={onEditBook} author={author} />
+                );
+            })}
         </View>
     );
 };

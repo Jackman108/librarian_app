@@ -3,15 +3,27 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Book } from '../models/book.model';
+import { Author } from '../models/author.model';
 
-const BookItem = ({ book, onEditBook }: { book: Book; onEditBook: (book: Book) => void }) => {
+const BookItem = ({
+    book,
+    onEditBook,
+    author
+}: {
+    book: Book;
+    onEditBook: (book: Book) => void,
+    author?: Author
+}) => {
+
     return (
         <TouchableOpacity onPress={() => onEditBook(book)} style={styles.itemContainer}>
-                <Text style={[styles.itemText, styles.idText]}>{book.id}</Text>
-                <Text style={styles.itemText}>{book.title}</Text>
-                <Text style={styles.itemText}>{book.publisher}</Text>
-                <Text style={styles.itemText}>{book.authorId}</Text>
-                <Text style={styles.itemText}>{book.year}</Text>
+            <Text style={[styles.itemText, styles.idText]}>{book.id}</Text>
+            <Text style={styles.itemText}>{book.title}</Text>
+            <Text style={styles.itemText}>{book.publisher}</Text>
+            <Text style={styles.itemText}>
+                {author ? `${author.firstName} ${author.lastName}` : 'Unknown Author'}
+            </Text>
+            <Text style={styles.itemText}>{book.year}</Text>
         </TouchableOpacity>
     );
 };

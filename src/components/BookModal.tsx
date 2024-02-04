@@ -4,8 +4,10 @@ import React from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
 import BookForm from './BookForm';
 import { Book } from '../models/book.model';
+import { Author } from '../models/author.model';
 
-const BookModal = ({ visible, onClose, onSaveBook, editableBook, onBookChange, isEditing }: {
+const BookModal = ({ authors, visible, onClose, onSaveBook, editableBook, onBookChange, isEditing }: {
+    authors: Author[];
     visible: boolean;
     onClose: () => void;
     onSaveBook: () => void;
@@ -26,6 +28,7 @@ const BookModal = ({ visible, onClose, onSaveBook, editableBook, onBookChange, i
                         <Text style={styles.closeButtonText}>Close</Text>
                     </TouchableOpacity>
                     <BookForm
+                        authors={authors}
                         editableBook={editableBook}
                         onBookChange={onBookChange}
                         onSaveBook={onSaveBook}
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
     },
     closeButtonText: {
         fontSize: 16,
-        color: 'blue', 
+        color: 'blue',
     },
 });
 
