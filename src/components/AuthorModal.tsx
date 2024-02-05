@@ -1,16 +1,25 @@
 // src/components/AuthorModal.tsx
-import React from 'react';
+import React, { FC } from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
 import AuthorForm from './AuthorForm';
 import { Author } from '../models/author.model';
 
-const AuthorModal = ({ visible, onClose, onSaveAuthor, editableAuthor, onAuthorChange, isEditing }: {
+interface AuthorModalProps {
     visible: boolean;
     onClose: () => void;
     onSaveAuthor: () => void;
     editableAuthor: Partial<Author>;
     onAuthorChange: (updatedAuthor: Partial<Author>) => void;
     isEditing: boolean;
+}
+
+const AuthorModal: FC<AuthorModalProps> = ({
+    visible,
+    onClose,
+    onSaveAuthor,
+    editableAuthor,
+    onAuthorChange,
+    isEditing
 }) => {
     return (
         <Modal
@@ -28,8 +37,7 @@ const AuthorModal = ({ visible, onClose, onSaveAuthor, editableAuthor, onAuthorC
                         editableAuthor={editableAuthor}
                         onAuthorChange={onAuthorChange}
                         onSaveAuthor={onSaveAuthor}
-                        isEditing={isEditing}
-                        onClose={onClose}
+                        isEditing={isEditing}                       
                     />
                 </View>
             </View>
@@ -58,7 +66,7 @@ const styles = StyleSheet.create({
     },
     closeButtonText: {
         fontSize: 16,
-        color: 'blue', 
+        color: 'blue',
     },
 });
 

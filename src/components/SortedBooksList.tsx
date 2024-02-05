@@ -1,39 +1,50 @@
 //src/components/SortedBooksList.tsx
 
-import React from 'react';
+import React, { FC } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Author } from '../models/author.model';
 import { Book } from '../models/book.model';
 import BookItem from './BookItem';
 import BookTableHeader from './BookTableHeader';
-import { Author } from '../models/author.model';
 
-const SortedBooksList = ({ books, sortBy, onEditBook, authors }: {
+interface SortedBooksListProps {
     books: Book[];
+    authors: Author[];
     sortBy: (key: keyof Book, order: 'asc' | 'desc') => void;
     onEditBook: (book: Book) => void;
-    authors: Author[];
+    getAuthorFullNameById: (authorId: string) => string;
+}
+
+const SortedBooksList: FC<SortedBooksListProps> = ({
+    books,
+    authors,
+    sortBy,
+    onEditBook,
+    getAuthorFullNameById
 }) => {
-    
     const renderItem = ({ item }: { item: Book }) => {
-        // Find the corresponding author for each book
-        const author = authors.find((author) => author.books.some(b => b.id === item.id));
         return (
-            <BookItem key={item.id} book={item} onEditBook={onEditBook} author={author} />
+            <BookItem
+                key={item.id}
+                book={item}
+                onEditBook={onEditBook}
+                author={authors.find((author) => author.id === item.authorId)}
+                getAuthorFullNameById={getAuthorFullNameById}
+            />
         );
     };
 
     return (
         <View style={styles.container}>
-        <Text style={styles.listHeaderText}>Books List</Text>
-        <BookTableHeader sortBy={sortBy} />
-        <FlatList
-            data={books}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            // Add styles for scrolling
-            style={styles.flatList}
-        />
-    </View>
+            <Text style={styles.listHeaderText}>Books List</Text>
+            <BookTableHeader sortBy={sortBy} />
+            <FlatList
+                data={books}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+                style={styles.flatList}
+            />
+        </View>
     );
 };
 
@@ -51,11 +62,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#3498db', 
-        marginTop: 10, 
+        color: '#3498db',
+        marginTop: 10,
     },
     flatList: {
-        maxHeight: '80%', 
+        maxHeight: '80%',
     },
 });
 

@@ -1,27 +1,31 @@
 //src/components/BookItem.tsx
 
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Book } from '../models/book.model';
+import React, { FC } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Author } from '../models/author.model';
+import { Book } from '../models/book.model';
 
-const BookItem = ({
-    book,
-    onEditBook,
-    author
-}: {
+interface BookItemProps {
     book: Book;
+    author?: Author;
     onEditBook: (book: Book) => void,
-    author?: Author
-}) => {
+    getAuthorFullNameById: (authorId: string) => string;
+}
 
+const BookItem: FC<BookItemProps> = ({
+    book,
+    author,
+    onEditBook,
+    getAuthorFullNameById,
+}) => {
+    const authorId = author ? author.id : book.authorId;
     return (
         <TouchableOpacity onPress={() => onEditBook(book)} style={styles.itemContainer}>
             <Text style={[styles.itemText, styles.idText]}>{book.id}</Text>
             <Text style={styles.itemText}>{book.title}</Text>
             <Text style={styles.itemText}>{book.publisher}</Text>
             <Text style={styles.itemText}>
-                {author ? `${author.firstName} ${author.lastName}` : 'Unknown Author'}
+                {getAuthorFullNameById(authorId)}
             </Text>
             <Text style={[styles.itemText, styles.idText]}>{book.year}</Text>
         </TouchableOpacity>
@@ -36,7 +40,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
-        gap:10
+        gap: 10
     },
     itemText: {
         flex: 2,
@@ -46,7 +50,7 @@ const styles = StyleSheet.create({
     },
     idText: {
         flex: 1,
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
     },
 });
 

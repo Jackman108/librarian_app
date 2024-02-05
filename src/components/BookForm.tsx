@@ -1,20 +1,28 @@
 //src/components/BookForm.tsx
-
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-import { Book } from '../models/book.model';
-import { Author } from '../models/author.model';
 import { Picker } from '@react-native-picker/picker';
-
-const BookForm = ({ editableBook, onBookChange, onSaveBook, isEditing, onClose, authors }: {
+import React, { FC, useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Author } from '../models/author.model';
+import { Book } from '../models/book.model';
+interface BookFormProps {
     editableBook: Partial<Book>;
     onBookChange: (updatedBook: Partial<Book>) => void;
     onSaveBook: () => void;
     isEditing: boolean;
-    onClose: () => void;
     authors: Author[];
+    getAuthorFullNameById: (authorId: string) => string;
+}
+
+const BookForm: FC<BookFormProps> = ({
+    editableBook,
+    onBookChange,
+    onSaveBook,
+    isEditing,
+    authors,
+    getAuthorFullNameById,
 }) => {
-    const [selectedAuthor, setSelectedAuthor] = useState<string>(editableBook.authorId || '');
+    const [selectedAuthor, setSelectedAuthor] = useState<string | undefined>(editableBook.authorId);
+
 
     const handleInputChange = (key: keyof Book, value: string | number) => {
         onBookChange({ ...editableBook, [key]: value });
@@ -23,6 +31,7 @@ const BookForm = ({ editableBook, onBookChange, onSaveBook, isEditing, onClose, 
     const handleAuthorChange = (authorId: string) => {
         setSelectedAuthor(authorId);
         onBookChange({ ...editableBook, authorId });
+        console.log(editableBook, authorId)
     };
 
     return (
@@ -43,13 +52,14 @@ const BookForm = ({ editableBook, onBookChange, onSaveBook, isEditing, onClose, 
             />
             <Text style={styles.label}>Author:</Text>
             <Picker
+                style={styles.picker}
                 selectedValue={selectedAuthor}
                 onValueChange={(itemValue) => handleAuthorChange(itemValue as string)}
             >
                 {authors.map((author) => (
                     <Picker.Item
                         key={author.id}
-                        label={`${author.firstName} ${author.lastName}`}
+                        label={getAuthorFullNameById(author.id)}
                         value={author.id}
                     />
                 ))}
@@ -70,9 +80,6 @@ const BookForm = ({ editableBook, onBookChange, onSaveBook, isEditing, onClose, 
 };
 
 const styles = StyleSheet.create({
-    formContainer: {
-        padding: 10,
-    },
     label: {
         fontSize: 16,
         fontWeight: 'bold',
@@ -80,19 +87,19 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        width:200,
+        width: 200,
         borderColor: 'gray',
         borderWidth: 1,
         marginBottom: 10,
         paddingLeft: 10,
     },
-    validationError: {
-        color: 'red',
-        marginBottom: 10,
-    },
     buttonContainer: {
         marginTop: 40,
-    }
+    },
+    picker: {
+        color: 'white',
+        backgroundColor: 'gray',
+    },
 });
 
 export default BookForm;

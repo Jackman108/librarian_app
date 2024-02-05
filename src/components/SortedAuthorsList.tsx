@@ -1,28 +1,37 @@
 // src/components/SortedAuthorsList.tsx
-import React from 'react';
+import React, { FC } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Author } from '../models/author.model';
 import AuthorItem from './AuthorItem';
 import AuthorTableHeader from './AuthorTableHeader';
 
-const SortedAuthorsList = ({ authors, sortBy, onEditAuthor }: {
+interface SortedAuthorsListProps {
     authors: Author[];
     sortBy: (key: keyof Author, order: 'asc' | 'desc') => void;
     onEditAuthor: (author: Author) => void;
+}
+
+const SortedAuthorsList: FC<SortedAuthorsListProps> = ({
+    authors,
+    sortBy,
+    onEditAuthor
 }) => {
+    const renderItem = ({ item }: { item: Author }) => (
+        <AuthorItem
+            author={item}
+            onEditAuthor={onEditAuthor}
+        />
+    );
+
     return (
         <View style={styles.container}>
             <Text style={styles.listHeaderText}>Authors List</Text>
             <AuthorTableHeader sortBy={sortBy} />
             <FlatList
                 data={authors}
+                renderItem={renderItem}
                 keyExtractor={(author) => author.id}
-                renderItem={({ item: author }) => (
-                    <AuthorItem
-                        author={author}
-                        onEditAuthor={onEditAuthor}
-                    />
-                )}
+                style={styles.flatList}
             />
         </View>
     );
@@ -31,10 +40,10 @@ const SortedAuthorsList = ({ authors, sortBy, onEditAuthor }: {
 const styles = StyleSheet.create({
     container: {
         margin: 10,
-        backgroundColor: '#fff', 
+        backgroundColor: '#fff',
         borderRadius: 10,
-        elevation: 5, 
-        shadowColor: '#000', 
+        elevation: 5,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
     },
@@ -42,8 +51,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#3498db', // Blue color
-        marginTop: 10, // Adjust as needed
+        color: '#3498db',
+        marginTop: 10,
+    },
+    flatList: {
+        maxHeight: '84%',
     },
 });
 

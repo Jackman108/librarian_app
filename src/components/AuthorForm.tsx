@@ -1,39 +1,25 @@
 // src/components/AuthorForm.tsx
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Author } from '../models/author.model';
 
-const AuthorForm = ({
-    editableAuthor,
-    onAuthorChange,
-    onSaveAuthor,
-    isEditing,
-    onClose // Добавлен параметр для закрытия модального окна
-}: {
+interface AuthorFormProps {
     editableAuthor: Partial<Author>;
     onAuthorChange: (updatedAuthor: Partial<Author>) => void;
     onSaveAuthor: () => void;
     isEditing: boolean;
-    onClose: () => void; // Добавлен параметр для закрытия модального окна
-}) => {
-    const [validationError, setValidationError] = useState<string | null>(null);
+}
 
-    const handleSave = () => {
-        if (!editableAuthor.firstName || !editableAuthor.lastName || !editableAuthor.middleName) {
-            setValidationError('All fields must be filled in.');
-        } else {
-            setValidationError(null);
-            onSaveAuthor();
-            onClose(); // Закрываем модальное окно после успешного сохранения
-        }
-    };
+const AuthorForm: FC<AuthorFormProps> = ({
+    editableAuthor,
+    onAuthorChange,
+    onSaveAuthor,
+    isEditing,    
+
+}) => {
 
     return (
         <View style={styles.formContainer}>
-            {validationError && (
-                <Text style={styles.validationError}>{validationError}</Text>
-            )}
-
             <Text style={styles.label}>First Name:</Text>
             <TextInput
                 style={styles.input}
@@ -59,7 +45,7 @@ const AuthorForm = ({
             />
 
             <View style={styles.buttonContainer}>
-                <Button title={isEditing ? "Update Author" : "Save Author"} onPress={handleSave} />
+                <Button title={isEditing ? "Update Author" : "Save Author"} onPress={onSaveAuthor} />
             </View>
         </View>
     );
@@ -76,6 +62,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
+        width: 200,
         borderColor: 'gray',
         borderWidth: 1,
         marginBottom: 10,
@@ -88,6 +75,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 40,
     }
+
 });
 
 export default AuthorForm;

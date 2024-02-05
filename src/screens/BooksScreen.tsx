@@ -1,85 +1,94 @@
 // src/screen/BooksScreen.tsx
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useCallback, useState } from 'react';
-import { Button, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { Button, StyleSheet, View } from 'react-native';
 import { RootStackParamList } from '../../navigationTypes';
 import BookModal from '../components/BookModal';
 import SortedBooksList from '../components/SortedBooksList';
 import useBooks from '../hooks/useBooks';
+import useFormManager from '../hooks/useFormManager';
+import useId from '../hooks/useId';
+import useSort from '../hooks/useSort';
 import { Book } from '../models/book.model';
-import sortBooks from '../utils/sortBooks';
-
 
 type BooksScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Books'>;
 
 const BooksScreen = () => {
-  const { books, authors, addBook, editBook, setBooks } = useBooks();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editableBook, setEditableBook] = useState<Partial<Book> | null>(null);
-  const [showBookForm, setShowBookForm] = useState<boolean>(false);
   const navigation = useNavigation<BooksScreenNavigationProp>();
 
-  const sortBy = useCallback((key: keyof Book, order: 'asc' | 'desc') => {
-    const sortedBooks = sortBooks(books, key, order);
-    setBooks(sortedBooks);
-  }, [books, setBooks]);
+  const { books,
+    authors,
+    addBook,
+    editBook,
+    setBooks,
+    getAuthorFullNameById
+  } = useBooks();
 
-  const handleSaveBook = useCallback(() => {
-    if (editableBook) {
-      const bookToSave = {
-        ...editableBook,
-        id: isEditing ? editableBook.id : (Math.floor(Math.random() * 900) + 100).toString(),
-      };
+  const generateNewBookId = useId(books);
 
-      if (isEditing) {
-        editBook(bookToSave as Book);
-      } else {
-        addBook(bookToSave as Book);
-      }
+  const sortBooks = useSort<Book>();
 
-      setIsEditing(false);
-      setEditableBook(null);
-      setShowBookForm(false);
+  const {
+    isEditing,
+    editableItem,
+    showForm,
+    handleAddItem,
+    handleEditItem,
+    handleCloseForm,
+    handleSaveItem,
+    setEditableItem,
+  } = useFormManager<Book>(generateNewBookId);
+
+  const handleSortBooks = (key: keyof Book) => {
+    sortBooks(books, setBooks, key);
+  };
+  const saveBook = useCallback((book: Book) => {
+    if (!book.authorId) {
+      book.authorId = '001';
     }
-  }, [editableBook, isEditing, addBook, editBook]);
-
-  const handleAddBook = useCallback(() => {
-    setIsEditing(false);
-    setEditableBook({ title: '', publisher: '', year: 0 });
-    setShowBookForm(true);
-  }, []);
-
-  const handleEditBook = useCallback((book: Book) => {
-    setIsEditing(true);
-    setEditableBook(book);
-    setShowBookForm(true);
-  }, []);
-
-  const handleCloseBookForm = useCallback(() => {
-    setShowBookForm(false);
-  }, []);
+    isEditing ? editBook(book) : addBook(book);
+  }, [editBook, addBook, authors, isEditing, editableItem]);
 
   const handleAddAuthor = () => {
     navigation.navigate('Authors');
   };
 
   return (
-    <View>
-      <Button title={showBookForm ? "Hide Book Form" : "Add Book"} onPress={showBookForm ? handleCloseBookForm : handleAddBook} />
-      <Button title="Add Author" onPress={handleAddAuthor} />
-      <SortedBooksList authors={authors} books={books} sortBy={sortBy} onEditBook={handleEditBook} />
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <Button title="Authors" onPress={handleAddAuthor} />
+        <Button title={showForm ? "Hide Book Form" : "Add Book"} onPress={showForm ? handleCloseForm : handleAddItem} />
+      </View>
+      <SortedBooksList
+        books={books}
+        authors={authors}
+        sortBy={handleSortBooks}
+        onEditBook={handleEditItem}
+        getAuthorFullNameById={getAuthorFullNameById}
+      />
       <BookModal
         authors={authors}
-        visible={showBookForm}
-        onClose={handleCloseBookForm}
-        onSaveBook={handleSaveBook}
-        editableBook={editableBook || {}}
-        onBookChange={setEditableBook}
+        visible={showForm}
+        onClose={handleCloseForm}
+        onSaveBook={() => handleSaveItem(saveBook)}
+        editableBook={editableItem || {}}
+        onBookChange={setEditableItem}
         isEditing={isEditing}
+        getAuthorFullNameById={getAuthorFullNameById}
       />
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 10,
+  },
+});
 
 export default BooksScreen;

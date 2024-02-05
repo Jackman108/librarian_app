@@ -1,5 +1,5 @@
 // src/hooks/useAuthors.ts
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'; // Import Dispatch and SetStateAction
+import { useState, useEffect, Dispatch, SetStateAction, useCallback } from 'react'; // Import Dispatch and SetStateAction
 import { Author } from '../models/author.model';
 
 interface AuthorsHook {
@@ -7,7 +7,7 @@ interface AuthorsHook {
     addAuthor: (author: Author) => void;
     editAuthor: (updatedAuthor: Author) => void;
     loadInitialData: () => void;
-    setAuthors: Dispatch<SetStateAction<Author[]>>; // Explicitly define setAuthors
+    setAuthors: Dispatch<SetStateAction<Author[]>>;
 }
 
 const useAuthors = (): AuthorsHook => {
@@ -24,21 +24,22 @@ const useAuthors = (): AuthorsHook => {
         setAuthors(updatedAuthors);
     };
 
-    const loadInitialData = () => {
+    const loadInitialData = useCallback(() => {
         const initialData = require('../data/initialData.json');
+
         setAuthors(initialData.authors);
-    };
+    }, []);
 
     useEffect(() => {
         loadInitialData();
-    }, []);
+    }, [loadInitialData]);
 
     return {
         authors,
         addAuthor,
         editAuthor,
         loadInitialData,
-        setAuthors, // Include setAuthors in the returned object
+        setAuthors,
     };
 };
 

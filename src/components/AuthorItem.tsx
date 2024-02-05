@@ -1,9 +1,16 @@
 // src/components/AuthorItem.tsx
-import React from 'react';
+import React, { FC } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Author } from '../models/author.model';
 
-const AuthorItem = ({ author, onEditAuthor }: { author: Author; onEditAuthor: (author: Author) => void }) => (
+interface AuthorItemProps {
+    author: Author;
+    onEditAuthor: (author: Author) => void
+}
+const AuthorItem: FC<AuthorItemProps> = ({
+    author,
+    onEditAuthor
+}) => (
     <TouchableOpacity onPress={() => onEditAuthor(author)} style={styles.itemContainer}>
         <Text style={[styles.itemText, styles.idText]}>{author.id}</Text>
         <Text style={styles.itemText}>{author.firstName}</Text>
@@ -22,14 +29,14 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ddd',
     },
     itemText: {
-        flex: 2, // Adjust the flex value as needed
+        flex: 2, 
         color: '#333',
         fontSize: 16,
         fontWeight: '400',
     },
     idText: {
-        flex: 1, // Adjust the flex value for ID column
-        fontWeight: 'bold', // Make ID text bold for emphasis
+        flex: 1,
+        fontWeight: 'bold', 
     },
 });
 

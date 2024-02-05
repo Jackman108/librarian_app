@@ -1,65 +1,58 @@
-import React, { useCallback, useState } from 'react';
+// src/screen/AuthorsScreen.tsx
+import React, { useCallback } from 'react';
 import { Button, View } from 'react-native';
 import AuthorModal from '../components/AuthorModal';
 import SortedAuthorsList from '../components/SortedAuthorsList';
 import useAuthors from '../hooks/useAuthors';
+import useFormManager from '../hooks/useFormManager';
+import useId from '../hooks/useId';
+import useSort from '../hooks/useSort';
 import { Author } from '../models/author.model';
-import sortAuthors from '../utils/sortAuthors';
 
 const AuthorsScreen = () => {
-  const { authors, addAuthor, editAuthor, setAuthors } = useAuthors();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editableAuthor, setEditableAuthor] = useState<Partial<Author> | null>(null);
-  const [showAuthorForm, setShowAuthorForm] = useState<boolean>(false);
+  const { authors,
+    addAuthor,
+    editAuthor,
+    setAuthors
+  } = useAuthors();
+  const generateNewAuthorId = useId(authors);
+  const sortAuthors = useSort<Author>();
 
-  const sortBy = useCallback((key: keyof Author, order: 'asc' | 'desc') => {
-    const sortedAuthors = sortAuthors(authors, key, order);
-    setAuthors(sortedAuthors);
-  }, [authors, setAuthors]);
+  const {
+    isEditing,
+    editableItem,
+    showForm,
+    handleAddItem,
+    handleEditItem,
+    handleCloseForm,
+    handleSaveItem,
+    setEditableItem,
+  } = useFormManager<Author>(generateNewAuthorId);
 
-  const handleSaveAuthor = useCallback(() => {
-    if (editableAuthor) {
-      if (isEditing) {
-        editAuthor(editableAuthor as Author);
-      } else {
-        addAuthor({
-          id: (Math.floor(Math.random() * 900) + 100).toString(),
-          firstName: editableAuthor.firstName || '',
-          lastName: editableAuthor.lastName || '',
-          middleName: editableAuthor.middleName || '',
-        } as Author);
-      }
-      setIsEditing(false);
-      setEditableAuthor(null);
-    }
-  }, [editableAuthor, isEditing, addAuthor, editAuthor]);
+  const handleSortAuthors = (key: keyof Author) => {
+    sortAuthors(authors, setAuthors, key);
+};
 
-  const handleAddAuthor = useCallback(() => {
-    setIsEditing(false);
-    setEditableAuthor({ firstName: '', lastName: '', middleName: '' });
-    setShowAuthorForm(true);
-  }, []);
-
-  const handleEditAuthor = useCallback((author: Author) => {
-    setIsEditing(true);
-    setEditableAuthor(author);
-    setShowAuthorForm(true);
-  }, []);
-
-  const handleCloseAuthorForm = useCallback(() => {
-    setShowAuthorForm(false);
-  }, []);
+  const saveAuthor = useCallback((author: Author) => {
+    isEditing ? editAuthor(author) : addAuthor(author);
+  }, [editAuthor, addAuthor, isEditing]);
 
   return (
     <View>
-      <Button title={showAuthorForm ? "Hide Author Form" : "Add Author"} onPress={showAuthorForm ? handleCloseAuthorForm : handleAddAuthor} />
-      <SortedAuthorsList authors={authors} sortBy={sortBy} onEditAuthor={handleEditAuthor} />
+      <Button
+        title={showForm ? "Hide Author Form" : "Add Author"}
+        onPress={showForm ? handleCloseForm : handleAddItem}
+      />
+      <SortedAuthorsList
+        authors={authors}
+        sortBy={handleSortAuthors}
+        onEditAuthor={handleEditItem} />
       <AuthorModal
-        visible={showAuthorForm}
-        onClose={handleCloseAuthorForm}
-        onSaveAuthor={handleSaveAuthor}
-        editableAuthor={editableAuthor || {}}
-        onAuthorChange={setEditableAuthor}
+        visible={showForm}
+        onClose={handleCloseForm}
+        onSaveAuthor={() => handleSaveItem(saveAuthor)}
+        editableAuthor={editableItem || {}}
+        onAuthorChange={setEditableItem}
         isEditing={isEditing}
       />
     </View>

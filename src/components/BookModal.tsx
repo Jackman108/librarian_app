@@ -1,12 +1,11 @@
 //src/components/BookModal.tsx
-
-import React from 'react';
-import { View, Modal, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
-import BookForm from './BookForm';
-import { Book } from '../models/book.model';
+import React, { FC } from 'react';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Author } from '../models/author.model';
+import { Book } from '../models/book.model';
+import BookForm from './BookForm';
 
-const BookModal = ({ authors, visible, onClose, onSaveBook, editableBook, onBookChange, isEditing }: {
+interface BookModalProps {
     authors: Author[];
     visible: boolean;
     onClose: () => void;
@@ -14,6 +13,18 @@ const BookModal = ({ authors, visible, onClose, onSaveBook, editableBook, onBook
     editableBook: Partial<Book>;
     onBookChange: (updatedBook: Partial<Book>) => void;
     isEditing: boolean;
+    getAuthorFullNameById: (authorId: string) => string;
+}
+
+const BookModal: FC<BookModalProps> = ({
+    authors,
+    visible,
+    onClose,
+    onSaveBook,
+    editableBook,
+    onBookChange,
+    isEditing,
+    getAuthorFullNameById
 }) => {
     return (
         <Modal
@@ -33,7 +44,7 @@ const BookModal = ({ authors, visible, onClose, onSaveBook, editableBook, onBook
                         onBookChange={onBookChange}
                         onSaveBook={onSaveBook}
                         isEditing={isEditing}
-                        onClose={onClose}
+                        getAuthorFullNameById={getAuthorFullNameById}
                     />
                 </View>
             </View>

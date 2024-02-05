@@ -2,4 +2,5 @@
 export type RootStackParamList = {
     Authors: undefined; 
     Books: undefined; 
+    Loading: undefined; 
 };

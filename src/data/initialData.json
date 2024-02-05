@@ -10,21 +10,21 @@
                     "id": "001",
                     "title": "The Catcher in the Rye",
                     "publisher": "Little, Brown and Company",
-                    "authorId": "1",
+                    "authorId": "001",
                     "year": 1951
                 },
                 {
                     "id": "002",
                     "title": "1984",
                     "publisher": "Secker & Warburg",
-                    "authorId": "1",
+                    "authorId": "001",
                     "year": 1949
                 },
                 {
                     "id": "003",
                     "title": "To Kill a Mockingbird",
                     "publisher": "J.B. Lippincott & Co.",
-                    "authorId": "1",
+                    "authorId": "001",
                     "year": 1960
                 }
             ]
@@ -39,21 +39,21 @@
                     "id": "004",
                     "title": "Pride and Prejudice",
                     "publisher": "T. Egerton, Whitehall",
-                    "authorId": "2",
+                    "authorId": "002",
                     "year": 1813
                 },
                 {
                     "id": "005",
                     "title": "Sense and Sensibility",
                     "publisher": "Thomas Egerton",
-                    "authorId": "2",
+                    "authorId": "002",
                     "year": 1811
                 },
                 {
                     "id": "006",
                     "title": "Emma",
                     "publisher": "John Murray",
-                    "authorId": "2",
+                    "authorId": "002",
                     "year": 1815
                 }
             ]
@@ -68,21 +68,21 @@
                     "id": "007",
                     "title": "The Great Gatsby",
                     "publisher": "Charles Scribner's Sons",
-                    "authorId": "3",
+                    "authorId": "003",
                     "year": 1925
                 },
                 {
                     "id": "008",
                     "title": "Tender Is the Night",
                     "publisher": "Scribner's",
-                    "authorId": "3",
+                    "authorId": "003",
                     "year": 1934
                 },
                 {
                     "id": "009",
                     "title": "This Side of Paradise",
                     "publisher": "Charles Scribner's Sons",
-                    "authorId": "3",
+                    "authorId": "003",
                     "year": 1920
                 }
             ]
@@ -97,21 +97,21 @@
                     "id": "010",
                     "title": "Wuthering Heights",
                     "publisher": "Thomas Cautley Newby",
-                    "authorId": "4",
+                    "authorId": "004",
                     "year": 1847
                 },
                 {
                     "id": "011",
                     "title": "Jane Eyre",
                     "publisher": "Smith, Elder & Co.",
-                    "authorId": "4",
+                    "authorId": "004",
                     "year": 1847
                 },
                 {
                     "id": "012",
                     "title": "Agnes Grey",
                     "publisher": "Thomas Cautley Newby",
-                    "authorId": "4",
+                    "authorId": "004",
                     "year": 1847
                 }
             ]
@@ -126,21 +126,21 @@
                     "id": "013",
                     "title": "Romeo and Juliet",
                     "publisher": "Thomas Creede",
-                    "authorId": "5",
+                    "authorId": "005",
                     "year": 1597
                 },
                 {
                     "id": "014",
                     "title": "Hamlet",
                     "publisher": "Simon Forman",
-                    "authorId": "5",
+                    "authorId": "005",
                     "year": 1603
                 },
                 {
                     "id": "015",
                     "title": "Macbeth",
                     "publisher": "Thomas Middleton",
-                    "authorId": "5",
+                    "authorId": "005",
                     "year": 1623
                 }
             ]
@@ -155,21 +155,21 @@
                     "id": "016",
                     "title": "Alice's Adventures in Wonderland",
                     "publisher": "Macmillan",
-                    "authorId": "6",
+                    "authorId": "006",
                     "year": 1865
                 },
                 {
                     "id": "017",
                     "title": "Through the Looking-Glass",
                     "publisher": "Harper & Brothers",
-                    "authorId": "6",
+                    "authorId": "006",
                     "year": 1871
                 },
                 {
                     "id": "018",
                     "title": "The Hunting of the Snark",
                     "publisher": "Macmillan",
-                    "authorId": "6",
+                    "authorId": "006",
                     "year": 1876
                 }
             ]
@@ -184,21 +184,21 @@
                     "id": "019",
                     "title": "A Tale of Two Cities",
                     "publisher": "Chapman & Hall",
-                    "authorId": "7",
+                    "authorId": "007",
                     "year": 1859
                 },
                 {
                     "id": "020",
                     "title": "Great Expectations",
                     "publisher": "Chapman & Hall",
-                    "authorId": "7",
+                    "authorId": "007",
                     "year": 1860
                 },
                 {
                     "id": "021",
                     "title": "David Copperfield",
                     "publisher": "Bradbury & Evans",
-                    "authorId": "7",
+                    "authorId": "007",
                     "year": 1850
                 }
             ]
@@ -213,21 +213,21 @@
                     "id": "022",
                     "title": "Little Women",
                     "publisher": "Roberts Brothers",
-                    "authorId": "8",
+                    "authorId": "008",
                     "year": 1868
                 },
                 {
                     "id": "023",
                     "title": "Good Wives",
                     "publisher": "Roberts Brothers",
-                    "authorId": "8",
+                    "authorId": "008",
                     "year": 1869
                 },
                 {
                     "id": "024",
                     "title": "Jo's Boys",
                     "publisher": "Roberts Brothers",
-                    "authorId": "8",
+                    "authorId": "008",
                     "year": 1886
                 }
             ]
@@ -242,21 +242,21 @@
                     "id": "025",
                     "title": "The Hobbit",
                     "publisher": "George Allen & Unwin",
-                    "authorId": "9",
+                    "authorId": "009",
                     "year": 1937
                 },
                 {
                     "id": "026",
                     "title": "The Lord of the Rings",
                     "publisher": "George Allen & Unwin",
-                    "authorId": "9",
+                    "authorId": "009",
                     "year": 1954
                 },
                 {
                     "id": "027",
                     "title": "The Silmarillion",
                     "publisher": "George Allen & Unwin",
-                    "authorId": "9",
+                    "authorId": "009",
                     "year": 1977
                 }
             ]
@@ -271,21 +271,21 @@
                     "id": "028",
                     "title": "Frankenstein",
                     "publisher": "Lackington, Hughes, Harding, Mavor & Jones",
-                    "authorId": "10",
+                    "authorId": "010",
                     "year": 1818
                 },
                 {
                     "id": "029",
                     "title": "The Last Man",
                     "publisher": "Henry Colburn",
-                    "authorId": "10",
+                    "authorId": "010",
                     "year": 1826
                 },
                 {
                     "id": "030",
                     "title": "Mathilda",
                     "publisher": "Henry Colburn and Richard Bentley",
-                    "authorId": "10",
+                    "authorId": "010",
                     "year": 1819
                 }
             ]
