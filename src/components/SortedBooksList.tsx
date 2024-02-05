@@ -1,7 +1,7 @@
 //src/components/SortedBooksList.tsx
 
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Book } from '../models/book.model';
 import BookItem from './BookItem';
 import BookTableHeader from './BookTableHeader';
@@ -14,18 +14,26 @@ const SortedBooksList = ({ books, sortBy, onEditBook, authors }: {
     authors: Author[];
 }) => {
     
+    const renderItem = ({ item }: { item: Book }) => {
+        // Find the corresponding author for each book
+        const author = authors.find((author) => author.books.some(b => b.id === item.id));
+        return (
+            <BookItem key={item.id} book={item} onEditBook={onEditBook} author={author} />
+        );
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.listHeaderText}>Books List</Text>
-            <BookTableHeader sortBy={sortBy} />
-            {books && books.map((book) => {
-                // Find the corresponding author for each book
-                const author = authors.find((author) => author.books.some(b => b.id === book.id));
-                return (
-                    <BookItem key={book.id} book={book} onEditBook={onEditBook} author={author} />
-                );
-            })}
-        </View>
+        <Text style={styles.listHeaderText}>Books List</Text>
+        <BookTableHeader sortBy={sortBy} />
+        <FlatList
+            data={books}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            // Add styles for scrolling
+            style={styles.flatList}
+        />
+    </View>
     );
 };
 
@@ -43,8 +51,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#3498db', // Blue color
-        marginTop: 10, // Adjust as needed
+        color: '#3498db', 
+        marginTop: 10, 
+    },
+    flatList: {
+        maxHeight: '80%', 
     },
 });
 

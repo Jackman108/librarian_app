@@ -13,7 +13,7 @@ const AuthorsScreen = () => {
   const [showAuthorForm, setShowAuthorForm] = useState<boolean>(false);
 
   const sortBy = useCallback((key: keyof Author, order: 'asc' | 'desc') => {
-    const sortedAuthors = sortAuthors(authors, key, order); 
+    const sortedAuthors = sortAuthors(authors, key, order);
     setAuthors(sortedAuthors);
   }, [authors, setAuthors]);
 
@@ -52,9 +52,8 @@ const AuthorsScreen = () => {
 
   return (
     <View>
-      <SortedAuthorsList authors={authors} sortBy={sortBy} onEditAuthor={handleEditAuthor} />
       <Button title={showAuthorForm ? "Hide Author Form" : "Add Author"} onPress={showAuthorForm ? handleCloseAuthorForm : handleAddAuthor} />
-
+      <SortedAuthorsList authors={authors} sortBy={sortBy} onEditAuthor={handleEditAuthor} />
       <AuthorModal
         visible={showAuthorForm}
         onClose={handleCloseAuthorForm}
@@ -63,7 +62,6 @@ const AuthorsScreen = () => {
         onAuthorChange={setEditableAuthor}
         isEditing={isEditing}
       />
-
     </View>
   );
 };

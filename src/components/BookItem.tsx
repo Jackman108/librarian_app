@@ -23,7 +23,7 @@ const BookItem = ({
             <Text style={styles.itemText}>
                 {author ? `${author.firstName} ${author.lastName}` : 'Unknown Author'}
             </Text>
-            <Text style={styles.itemText}>{book.year}</Text>
+            <Text style={[styles.itemText, styles.idText]}>{book.year}</Text>
         </TouchableOpacity>
     );
 };
@@ -36,16 +36,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
+        gap:10
     },
     itemText: {
-        flex: 2, // Adjust the flex value as needed
+        flex: 2,
         color: '#333',
         fontSize: 16,
         fontWeight: '400',
     },
     idText: {
-        flex: 1, // Adjust the flex value for ID column
-        fontWeight: 'bold', // Make ID text bold for emphasis
+        flex: 1,
+        fontWeight: 'bold', 
     },
 });
 

@@ -1,6 +1,6 @@
 // src/components/SortedAuthorsList.tsx
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Author } from '../models/author.model';
 import AuthorItem from './AuthorItem';
 import AuthorTableHeader from './AuthorTableHeader';
@@ -14,9 +14,16 @@ const SortedAuthorsList = ({ authors, sortBy, onEditAuthor }: {
         <View style={styles.container}>
             <Text style={styles.listHeaderText}>Authors List</Text>
             <AuthorTableHeader sortBy={sortBy} />
-            {authors.map((author) => (
-                <AuthorItem key={author.id} author={author} onEditAuthor={onEditAuthor} />
-            ))}
+            <FlatList
+                data={authors}
+                keyExtractor={(author) => author.id}
+                renderItem={({ item: author }) => (
+                    <AuthorItem
+                        author={author}
+                        onEditAuthor={onEditAuthor}
+                    />
+                )}
+            />
         </View>
     );
 };
