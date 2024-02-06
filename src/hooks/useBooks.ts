@@ -2,7 +2,7 @@
 import { useState, useEffect, Dispatch, SetStateAction, useCallback } from 'react';
 import { Book } from '../models/book.model';
 import { Author } from '../models/author.model';
-
+import { MMKVLoader } from 'react-native-mmkv-storage';
 interface BooksHook {
     books: Book[];
     authors: Author[];
@@ -18,15 +18,22 @@ interface BooksHook {
 const useBooks = (): BooksHook => {
     const [books, setBooks] = useState<Book[]>([]);
     const [authors, setAuthors] = useState<Author[]>([]);
+    const MMKV = new MMKVLoader().initialize();
 
     const addBook = useCallback((book: Book) => {
-        setBooks((prevBooks) => [...prevBooks, book]);
+        setBooks(prevBooks => {
+            const newBooks = [...prevBooks, book];
+            MMKV.setArrayAsync('books', newBooks);
+            return newBooks;
+        });
     }, []);
 
     const editBook = useCallback((updatedBook: Book) => {
-        setBooks((prevBooks) =>
-            prevBooks.map((book) => (book.id === updatedBook.id ? updatedBook : book))
-        );
+        setBooks(prevBooks => {
+            const updatedBooks = prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book));
+            MMKV.setArrayAsync('books', updatedBooks);
+            return updatedBooks;
+        });
     }, []);
 
     const getAuthorById = useCallback((authorId: string) => {
@@ -45,16 +52,33 @@ const useBooks = (): BooksHook => {
         return `${author?.firstName} ${author?.lastName}`;
     }, [getAuthorById]);
 
-    const loadInitialData = useCallback(() => {
-        const initialData = require('../data/initialData.json');
-        const allBooks = initialData.authors.flatMap((author: Author) => author.books);
-        setBooks(allBooks);
-        setAuthors(initialData.authors);
+    const loadInitialData = useCallback(async () => {
+        const storedBooks = await MMKV.getArrayAsync<Book>('books');
+        if (storedBooks) {
+            setBooks(storedBooks);
+        } else {
+            const initialData = require('../data/initialData.json');
+            const allBooks = initialData.authors.flatMap((author: Author) => author.books);
+            setBooks(allBooks);
+            setAuthors(initialData.authors);
+            MMKV.setArrayAsync('books', initialData.books);
+        }
+    }, []);
+    const loadAuthors = useCallback(async () => {
+        const storedAuthors = await MMKV.getArrayAsync<Author>('authors');
+        if (storedAuthors) {
+            setAuthors(storedAuthors);
+        } else {
+            const initialData = require('../data/initialData.json');
+            setAuthors(initialData.authors);
+            MMKV.setArrayAsync('authors', initialData.authors);
+        }
     }, []);
 
     useEffect(() => {
         loadInitialData();
-    }, [loadInitialData]);
+        loadAuthors();
+    }, [loadAuthors]);
 
     return {
         books,
