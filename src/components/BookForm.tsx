@@ -69,6 +69,7 @@ const BookForm: FC<BookFormProps> = ({
                 placeholder="Title"
                 value={editableBook.title as string}
                 onChangeText={(value) => handleInputChange('title', value)}
+                keyboardType="default"
             />
             {validationErrors.title && <Text style={styles.validationError}>{validationErrors.title}</Text>}
 
@@ -78,6 +79,7 @@ const BookForm: FC<BookFormProps> = ({
                 placeholder="Publisher"
                 value={editableBook.publisher as string}
                 onChangeText={(value) => handleInputChange('publisher', value)}
+                keyboardType="default"
             />
             {validationErrors.publisher && <Text style={styles.validationError}>{validationErrors.publisher}</Text>}
 
@@ -117,6 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 8,
+        fontFamily: 'Roboto-Bold',
     },
     input: {
         height: 40,
@@ -125,6 +128,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 10,
         paddingLeft: 10,
+        fontFamily: 'Roboto-Regular',
     },
     inputError: {
         borderColor: 'red',

@@ -55,6 +55,7 @@ const AuthorForm: FC<AuthorFormProps> = ({
                 placeholder="Enter First Name"
                 value={editableAuthor?.firstName || ''}
                 onChangeText={(text) => onAuthorChange({ ...editableAuthor, firstName: text })}
+                keyboardType="default"
             />
             {errors.firstName && <Text style={styles.validationError}>{errors.firstName}</Text>}
 
@@ -64,6 +65,7 @@ const AuthorForm: FC<AuthorFormProps> = ({
                 placeholder="Enter Last Name"
                 value={editableAuthor?.lastName || ''}
                 onChangeText={(text) => onAuthorChange({ ...editableAuthor, lastName: text })}
+                keyboardType="default"
             />
             {errors.lastName && <Text style={styles.validationError}>{errors.lastName}</Text>}
             <Text style={styles.label}>Middle Name:</Text>
@@ -72,6 +74,7 @@ const AuthorForm: FC<AuthorFormProps> = ({
                 placeholder="Enter Middle Name"
                 value={editableAuthor?.middleName || ''}
                 onChangeText={(text) => onAuthorChange({ ...editableAuthor, middleName: text })}
+                keyboardType="default"
             />
             {errors.middleName && <Text style={styles.validationError}>{errors.middleName}</Text>}
 
@@ -90,6 +93,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 8,
+        fontFamily: 'Roboto-Bold',
     },
     input: {
         height: 40,
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 10,
         paddingLeft: 10,
+        fontFamily: 'Roboto-Regular',
     },
     inputError: {
         borderColor: 'red',
