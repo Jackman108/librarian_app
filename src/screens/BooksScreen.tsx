@@ -12,23 +12,24 @@ import useId from '../hooks/useId';
 import useSort from '../hooks/useSort';
 import { Book } from '../models/book.model';
 
+// Define the type for navigation props
 type BooksScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Books'>;
 
+// Define the BooksScreen component
 const BooksScreen = () => {
+  // Get navigation prop for navigating to Authors screen
   const navigation = useNavigation<BooksScreenNavigationProp>();
 
-  const { books,
-    authors,
-    addBook,
-    editBook,
-    setBooks,
-    getAuthorFullNameById
-  } = useBooks();
+  // Destructure necessary methods and states from useBooks hook
+  const { books, authors, addBook, editBook, setBooks, getAuthorFullNameById } = useBooks();
 
+  // Generate new book ID using useId hook
   const generateNewBookId = useId(books);
 
+  // Sort books using useSort hook
   const sortBooks = useSort<Book>();
 
+  // Destructure methods and states from useFormManager hook for managing form
   const {
     isEditing,
     editableItem,
@@ -40,9 +41,12 @@ const BooksScreen = () => {
     setEditableItem,
   } = useFormManager<Book>(generateNewBookId);
 
+  // Callback function to handle sorting books by a specific key
   const handleSortBooks = (key: keyof Book) => {
     sortBooks(books, setBooks, key);
   };
+
+  // Function to save a book, either adding or editing
   const saveBook = useCallback((book: Book) => {
     if (!book.authorId) {
       book.authorId = '001';
@@ -50,6 +54,7 @@ const BooksScreen = () => {
     isEditing ? editBook(book) : addBook(book);
   }, [editBook, addBook, authors, isEditing, editableItem]);
 
+  // Function to navigate to the Authors screen
   const handleAddAuthor = () => {
     navigation.navigate('Authors');
   };
@@ -57,8 +62,8 @@ const BooksScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <Button title="Authors" onPress={handleAddAuthor} />
-        <Button title={showForm ? "Hide Book Form" : "Add Book"} onPress={showForm ? handleCloseForm : handleAddItem} />
+        <Button title="Authors" onPress={handleAddAuthor} color="steelblue" />
+        <Button title={showForm ? "Hide Book Form" : "Add Book"} onPress={showForm ? handleCloseForm : handleAddItem} color="steelblue" />
       </View>
       <SortedBooksList
         books={books}
@@ -88,6 +93,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     margin: 10,
+  },
+  button: {
+    elevation: 10,
   },
 });
 

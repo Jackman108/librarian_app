@@ -1,6 +1,5 @@
-import { Book } from "./book.model";
-
 //src/models/author.model.ts
+import { Book } from "./book.model";
 export interface Author {
     id: string;
     firstName: string;

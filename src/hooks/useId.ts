@@ -1,7 +1,9 @@
 // src/hooks/useId.ts
 import { useCallback } from 'react';
 
+// Custom hook to generate new IDs
 const useId = (items: { id: string }[]) => {
+    // Memoized function to generate new ID
     const generateNewId = useCallback(() => {
         if (items.length === 0) {
             return '001';

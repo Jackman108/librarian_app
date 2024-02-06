@@ -1,12 +1,13 @@
 //src/components/SortedBooksList.tsx
 
 import React, { FC } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { Author } from '../models/author.model';
 import { Book } from '../models/book.model';
 import BookItem from './BookItem';
 import BookTableHeader from './BookTableHeader';
 
+// Props interface for SortedBooksList component
 interface SortedBooksListProps {
     books: Book[];
     authors: Author[];
@@ -15,6 +16,7 @@ interface SortedBooksListProps {
     getAuthorFullNameById: (authorId: string) => string;
 }
 
+// Functional component for rendering a sorted list of books
 const SortedBooksList: FC<SortedBooksListProps> = ({
     books,
     authors,
@@ -22,6 +24,7 @@ const SortedBooksList: FC<SortedBooksListProps> = ({
     onEditBook,
     getAuthorFullNameById
 }) => {
+    // Function to render each item in the list
     const renderItem = ({ item }: { item: Book }) => {
         return (
             <BookItem
@@ -36,7 +39,7 @@ const SortedBooksList: FC<SortedBooksListProps> = ({
 
     return (
         <View style={styles.container}>
-            <Text style={styles.listHeaderText}>Books List</Text>
+            {/* Render BookTableHeader passing sortBy function */}
             <BookTableHeader sortBy={sortBy} />
             <FlatList
                 data={books}
@@ -50,23 +53,23 @@ const SortedBooksList: FC<SortedBooksListProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
+
         backgroundColor: '#fff',
-        borderRadius: 10,
         elevation: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
+
     },
     listHeaderText: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#3498db',
-        marginTop: 10,
+        color: 'sandybrown',
+        margin: 10,
     },
     flatList: {
-        maxHeight: '80%',
+        maxHeight: '86%',
     },
 });
 

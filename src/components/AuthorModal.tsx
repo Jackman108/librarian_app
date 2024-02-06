@@ -1,9 +1,10 @@
 // src/components/AuthorModal.tsx
 import React, { FC } from 'react';
-import { View, Modal, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
-import AuthorForm from './AuthorForm';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Author } from '../models/author.model';
+import AuthorForm from './AuthorForm';
 
+// Define props interface for AuthorModal component
 interface AuthorModalProps {
     visible: boolean;
     onClose: () => void;
@@ -13,6 +14,7 @@ interface AuthorModalProps {
     isEditing: boolean;
 }
 
+// Functional component for rendering author modal
 const AuthorModal: FC<AuthorModalProps> = ({
     visible,
     onClose,
@@ -53,20 +55,20 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        backgroundColor: 'white',
-        borderRadius: 20,
+        backgroundColor: 'aliceblue',
         padding: 70,
         alignItems: 'center',
         elevation: 5,
     },
     closeButton: {
         position: 'absolute',
-        top: 10,
+        padding:10,
+        top: 20,
         right: 20,
     },
     closeButtonText: {
         fontSize: 16,
-        color: 'blue',
+        color: 'steelblue',
     },
 });
 

@@ -1,79 +1,60 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Librarian App
 
-# Getting Started
+## Description / Описание
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+Librarian App is a mobile application developed using React Native for managing books and authors. The app allows users to add, edit, and sort books and authors conveniently.
 
-## Step 1: Start the Metro Server
+Приложение Librarian - это мобильное приложение, разработанное с использованием React Native для управления книгами и авторами. Приложение позволяет пользователям удобно добавлять, редактировать и сортировать книги и авторов.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Installation / Установка
 
-To start Metro, run the following command from the _root_ of your React Native project:
+1. Clone the repository / Склонируйте репозиторий:
+   ```sh
+   git clone https://github.com/Jackman108/librarian_app.git
 
-```bash
-# using npm
-npm start
+2. Navigate into the project directory / Перейдите в каталог проекта:
+   ```sh
+   cd librarian_app
 
-# OR using Yarn
-yarn start
-```
+3. Install dependencies / Установите зависимости:
+   ```sh
+   npm install
 
-## Step 2: Start your Application
+## Deployment / Развертывание
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+   # Android
 
-### For Android
+1. Ensure you have Android Studio installed and properly configured.
+2. Connect your Android device or set up an Android emulator.
+3. Run the following command to start the app on Android:
+   ```sh
+   npm run android
 
-```bash
-# using npm
-npm run android
+   # iOS
 
-# OR using Yarn
-yarn android
-```
+1. Ensure you have Xcode installed on your macOS device.
+2.  Run the following command to start the app on iOS:
+   ```sh
+   npm run ios
 
-### For iOS
+## Usage / Использование
 
-```bash
-# using npm
-npm run ios
+   Once the app is deployed, you can navigate through the screens to manage books and authors.
 
-# OR using Yarn
-yarn ios
-```
+   После развертывания приложения вы можете перемещаться по экранам для управления книгами и авторами.
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Technologies Used / Используемые технологии
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+React Native
+@react-navigation/native
+@react-navigation/native-stack
+@react-native-picker/picker
+react-native-mmkv-storage
+react-native-safe-area-context
+react-native-screens
+roll-picker-native
+TypeScript
+Contributors / Участники
+Eugene Korobov
+License / Лицензия
+MIT License

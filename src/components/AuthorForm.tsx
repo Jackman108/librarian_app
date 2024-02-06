@@ -1,8 +1,9 @@
 // src/components/AuthorForm.tsx
 import React, { FC, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Button, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Author } from '../models/author.model';
 
+// Define props interface for AuthorForm component
 interface AuthorFormProps {
     editableAuthor: Partial<Author>;
     onAuthorChange: (updatedAuthor: Partial<Author>) => void;
@@ -10,6 +11,7 @@ interface AuthorFormProps {
     isEditing: boolean;
 }
 
+// Functional component for rendering author form
 const AuthorForm: FC<AuthorFormProps> = ({
     editableAuthor,
     onAuthorChange,
@@ -17,19 +19,24 @@ const AuthorForm: FC<AuthorFormProps> = ({
     isEditing,
 
 }) => {
+    // State for validation errors
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+    // Function to validate form fields
     const validateFields = () => {
         const newErrors: { [key: string]: string } = {};
 
+        // Check if First Name is empty
         if (!editableAuthor.firstName || editableAuthor.firstName.trim() === '') {
             newErrors.firstName = 'First Name is required';
         }
 
+        // Check if Last Name is empty
         if (!editableAuthor.lastName || editableAuthor.lastName.trim() === '') {
             newErrors.lastName = 'Last Name is required';
         }
 
+        // Check if Middle Name is empty
         if (!editableAuthor.middleName || editableAuthor.middleName.trim() === '') {
             newErrors.middleName = 'Middle Name is required';
         }
@@ -39,6 +46,7 @@ const AuthorForm: FC<AuthorFormProps> = ({
         return newErrors;
     };
 
+    // Handler for saving author
     const handleSaveAuthor = () => {
         const validationErrors = validateFields();
 
@@ -48,46 +56,52 @@ const AuthorForm: FC<AuthorFormProps> = ({
     };
 
     return (
-        <View style={styles.formContainer}>
-            <Text style={styles.label}>First Name:</Text>
-            <TextInput
-                style={styles.input ?? (errors.firstName && styles.inputError)}
-                placeholder="Enter First Name"
-                value={editableAuthor?.firstName || ''}
-                onChangeText={(text) => onAuthorChange({ ...editableAuthor, firstName: text })}
-                keyboardType="default"
-            />
-            {errors.firstName && <Text style={styles.validationError}>{errors.firstName}</Text>}
+        // KeyboardAvoidingView to handle keyboard behavior
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text style={styles.label}>First Name:</Text>
+                <TextInput
+                    style={styles.input ?? (errors.firstName && styles.inputError)}
+                    placeholder="Enter First Name"
+                    value={editableAuthor?.firstName || ''}
+                    onChangeText={(text) => onAuthorChange({ ...editableAuthor, firstName: text })}
+                    keyboardType="default"
+                />
+                {errors.firstName && <Text style={styles.validationError}>{errors.firstName}</Text>}
 
-            <Text style={styles.label}>Last Name:</Text>
-            <TextInput
-                style={styles.input ?? (errors.lastName && styles.inputError)}
-                placeholder="Enter Last Name"
-                value={editableAuthor?.lastName || ''}
-                onChangeText={(text) => onAuthorChange({ ...editableAuthor, lastName: text })}
-                keyboardType="default"
-            />
-            {errors.lastName && <Text style={styles.validationError}>{errors.lastName}</Text>}
-            <Text style={styles.label}>Middle Name:</Text>
-            <TextInput
-                style={styles.input ?? (errors.middleName && styles.inputError)}
-                placeholder="Enter Middle Name"
-                value={editableAuthor?.middleName || ''}
-                onChangeText={(text) => onAuthorChange({ ...editableAuthor, middleName: text })}
-                keyboardType="default"
-            />
-            {errors.middleName && <Text style={styles.validationError}>{errors.middleName}</Text>}
+                <Text style={styles.label}>Last Name:</Text>
+                <TextInput
+                    style={styles.input ?? (errors.lastName && styles.inputError)}
+                    placeholder="Enter Last Name"
+                    value={editableAuthor?.lastName || ''}
+                    onChangeText={(text) => onAuthorChange({ ...editableAuthor, lastName: text })}
+                    keyboardType="default"
+                />
+                {errors.lastName && <Text style={styles.validationError}>{errors.lastName}</Text>}
+                <Text style={styles.label}>Middle Name:</Text>
+                <TextInput
+                    style={styles.input ?? (errors.middleName && styles.inputError)}
+                    placeholder="Enter Middle Name"
+                    value={editableAuthor?.middleName || ''}
+                    onChangeText={(text) => onAuthorChange({ ...editableAuthor, middleName: text })}
+                    keyboardType="default"
+                />
+                {errors.middleName && <Text style={styles.validationError}>{errors.middleName}</Text>}
 
-            <View style={styles.buttonContainer}>
-                <Button title={isEditing ? "Update Author" : "Save Author"} onPress={handleSaveAuthor} />
-            </View>
-        </View>
+                <View style={styles.buttonContainer}>
+                    <Button title={isEditing ? "Update Author" : "Save Author"} onPress={handleSaveAuthor} color={'steelblue'} />
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
-    formContainer: {
-        padding: 10,
+    container: {
+        margin: 10,
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     label: {
         fontSize: 16,
@@ -113,7 +127,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     buttonContainer: {
-        marginTop: 40,
+        marginTop: 30,
     }
 
 });

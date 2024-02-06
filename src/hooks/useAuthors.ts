@@ -1,8 +1,9 @@
 // src/hooks/useAuthors.ts
-import { useState, useEffect, Dispatch, SetStateAction, useCallback } from 'react'; // Import Dispatch and SetStateAction
-import { Author } from '../models/author.model';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'; // Import Dispatch and SetStateAction
 import { MMKVLoader } from 'react-native-mmkv-storage';
+import { Author } from '../models/author.model';
 
+// Define interface for authors hook
 interface AuthorsHook {
     authors: Author[];
     addAuthor: (author: Author) => void;
@@ -11,10 +12,13 @@ interface AuthorsHook {
     setAuthors: Dispatch<SetStateAction<Author[]>>;
 }
 
+// Custom hook for managing authors
 const useAuthors = (): AuthorsHook => {
+    // Initialize state for authors
     const [authors, setAuthors] = useState<Author[]>([]);
     const MMKV = new MMKVLoader().initialize();
 
+    // Function to add an author
     const addAuthor = useCallback((author: Author) => {
         setAuthors(prevAuthors => {
             const newAuthors = [...prevAuthors, author];
@@ -23,6 +27,7 @@ const useAuthors = (): AuthorsHook => {
         });
     }, []);
 
+    // Function to edit an author
     const editAuthor = useCallback((updatedAuthor: Author) => {
         setAuthors(prevAuthors => {
             const updatedAuthors = prevAuthors.map(author => author.id === updatedAuthor.id ? updatedAuthor : author);
@@ -31,6 +36,7 @@ const useAuthors = (): AuthorsHook => {
         });
     }, []);
 
+    // Function to load initial data
     const loadInitialData = useCallback(async () => {
         const storedAuthors = await MMKV.getArrayAsync<Author>('authors');
         if (storedAuthors) {
@@ -42,10 +48,12 @@ const useAuthors = (): AuthorsHook => {
         }
     }, []);
 
+    // Effect hook to load initial data
     useEffect(() => {
         loadInitialData();
     }, []);
 
+    // Return authors hook object
     return {
         authors,
         addAuthor,

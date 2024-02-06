@@ -5,6 +5,7 @@ import { Author } from '../models/author.model';
 import { Book } from '../models/book.model';
 import BookForm from './BookForm';
 
+// Define props interface for BookModal component
 interface BookModalProps {
     authors: Author[];
     visible: boolean;
@@ -16,6 +17,7 @@ interface BookModalProps {
     getAuthorFullNameById: (authorId: string) => string;
 }
 
+// Functional component for rendering book modal
 const BookModal: FC<BookModalProps> = ({
     authors,
     visible,
@@ -60,20 +62,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        backgroundColor: 'white',
-        borderRadius: 20,
+        backgroundColor: 'aliceblue',
         padding: 70,
         alignItems: 'center',
         elevation: 5,
     },
     closeButton: {
         position: 'absolute',
-        top: 10,
+        top: 20,
         right: 20,
     },
     closeButtonText: {
         fontSize: 16,
-        color: 'blue',
+        color: 'steelblue',
     },
 });
 

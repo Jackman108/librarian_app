@@ -5,6 +5,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Author } from '../models/author.model';
 import { Book } from '../models/book.model';
 
+// Define props interface for BookItem component
 interface BookItemProps {
     book: Book;
     author?: Author;
@@ -12,12 +13,14 @@ interface BookItemProps {
     getAuthorFullNameById: (authorId: string) => string;
 }
 
+// Functional component for rendering individual book item
 const BookItem: FC<BookItemProps> = ({
     book,
     author,
     onEditBook,
     getAuthorFullNameById,
 }) => {
+    // Determine author ID
     const authorId = author ? author.id : book.authorId;
     return (
         <TouchableOpacity onPress={() => onEditBook(book)} style={styles.itemContainer}>
@@ -39,12 +42,12 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        borderBottomColor: 'darksalmon',
         gap: 10
     },
     itemText: {
         flex: 2,
-        color: '#333',
+        color: 'dimgrey',
         fontSize: 16,
         fontWeight: '400',
     },

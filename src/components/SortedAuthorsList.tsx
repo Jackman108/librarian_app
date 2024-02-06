@@ -1,21 +1,24 @@
 // src/components/SortedAuthorsList.tsx
 import React, { FC } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { Author } from '../models/author.model';
 import AuthorItem from './AuthorItem';
 import AuthorTableHeader from './AuthorTableHeader';
 
+// Props interface for SortedAuthorsList component
 interface SortedAuthorsListProps {
     authors: Author[];
     sortBy: (key: keyof Author, order: 'asc' | 'desc') => void;
     onEditAuthor: (author: Author) => void;
 }
 
+// Functional component for rendering a sorted list of authors
 const SortedAuthorsList: FC<SortedAuthorsListProps> = ({
     authors,
     sortBy,
     onEditAuthor
 }) => {
+    // Function to render each item in the list
     const renderItem = ({ item }: { item: Author }) => (
         <AuthorItem
             author={item}
@@ -25,7 +28,7 @@ const SortedAuthorsList: FC<SortedAuthorsListProps> = ({
 
     return (
         <View style={styles.container}>
-            <Text style={styles.listHeaderText}>Authors List</Text>
+            {/* Render AuthorTableHeader passing sortBy function */}
             <AuthorTableHeader sortBy={sortBy} />
             <FlatList
                 data={authors}
@@ -39,7 +42,6 @@ const SortedAuthorsList: FC<SortedAuthorsListProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
         backgroundColor: '#fff',
         borderRadius: 10,
         elevation: 5,
@@ -47,15 +49,9 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
     },
-    listHeaderText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color: '#3498db',
-        marginTop: 10,
-    },
+
     flatList: {
-        maxHeight: '84%',
+        maxHeight: '86%',
     },
 });
 
