@@ -22,6 +22,7 @@ const BookForm: FC<BookFormProps> = ({
     getAuthorFullNameById,
 }) => {
     const [selectedAuthor, setSelectedAuthor] = useState<string | undefined>(editableBook.authorId);
+    const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
 
 
     const handleInputChange = (key: keyof Book, value: string | number) => {
@@ -34,22 +35,52 @@ const BookForm: FC<BookFormProps> = ({
         console.log(editableBook, authorId)
     };
 
+    const validateFields = () => {
+        const errors: { [key: string]: string } = {};
+
+        if (!editableBook.title || editableBook.title.trim() === '') {
+            errors.title = 'Title is required';
+        }
+
+        if (!editableBook.publisher || editableBook.publisher.trim() === '') {
+            errors.publisher = 'Publisher is required';
+        }
+
+        if (!editableBook.year || isNaN(editableBook.year) || String(editableBook.year).length !== 4) {
+            errors.year = 'Year must be 4 digits';
+        }
+
+        setValidationErrors(errors);
+
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleSaveBook = () => {
+        if (validateFields()) {
+            onSaveBook();
+        }
+    };
+
     return (
         <View>
             <Text style={styles.label}>Title:</Text>
             <TextInput
-                style={styles.input}
+                style={styles.input ?? (validationErrors.title && styles.inputError)}
                 placeholder="Title"
                 value={editableBook.title as string}
                 onChangeText={(value) => handleInputChange('title', value)}
             />
+            {validationErrors.title && <Text style={styles.validationError}>{validationErrors.title}</Text>}
+
             <Text style={styles.label}>Publisher:</Text>
             <TextInput
-                style={styles.input}
+                style={styles.input ?? (validationErrors.publisher && styles.inputError)}
                 placeholder="Publisher"
                 value={editableBook.publisher as string}
                 onChangeText={(value) => handleInputChange('publisher', value)}
             />
+            {validationErrors.publisher && <Text style={styles.validationError}>{validationErrors.publisher}</Text>}
+
             <Text style={styles.label}>Author:</Text>
             <Picker
                 style={styles.picker}
@@ -66,14 +97,16 @@ const BookForm: FC<BookFormProps> = ({
             </Picker>
             <Text style={styles.label}>Year:</Text>
             <TextInput
-                style={styles.input}
+                style={styles.input ?? (validationErrors.year && styles.inputError)}
                 placeholder="Year"
                 value={editableBook.year ? editableBook.year.toString() : ''}
                 onChangeText={(value) => handleInputChange('year', value)}
                 keyboardType="numeric"
             />
+            {validationErrors.year && <Text style={styles.validationError}>{validationErrors.year}</Text>}
+
             <View style={styles.buttonContainer}>
-                <Button title={isEditing ? 'Update Book' : 'Add Book'} onPress={onSaveBook} />
+                <Button title={isEditing ? 'Update Book' : 'Add Book'} onPress={handleSaveBook} />
             </View>
         </View>
     );
@@ -92,6 +125,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 10,
         paddingLeft: 10,
+    },
+    inputError: {
+        borderColor: 'red',
+    },
+    validationError: {
+        color: 'red',
+        marginBottom: 10,
+        marginLeft: 10,
     },
     buttonContainer: {
         marginTop: 40,
